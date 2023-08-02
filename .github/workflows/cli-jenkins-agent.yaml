@@ -32,9 +32,9 @@ jobs:
       - name: Login to Zowe Artifactory
         uses: docker/login-action@v2
         with:
-          registry: zowe.jfrog.io-docker-snapshot.jfrog.io
-          username: ${{ secrets.ARTIFACTORY_X_USERNAME }}
-          password: ${{ secrets.ARTIFACTORY_X_PASSWORD }}
+          registry: zowe-docker-snapshot.jfrog.io
+          username: ${{ secrets.ARTIFACTORY_USER }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
       - name: Build & Push
         id:   build
@@ -44,7 +44,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ghcr.io/zowe/zowe-sample-dockerfiles-cli-jenkins-agent:latest
-            zowe.jfrog.io-docker-snapshot.jfrog.io/zowe-sample-dockerfiles-cli-jenkins-agent:latest
+            zowe-docker-snapshot.jfrog.io/ompzowe/zowe-sample-dockerfiles-cli-jenkins-agent:latest
           context: cli/jenkins-agent/.
       
       - name: Image Digest
