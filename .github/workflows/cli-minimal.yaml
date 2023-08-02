@@ -32,8 +32,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: zowe.jfrog.io-docker-snapshot.jfrog.io
-          username: ${{ secrets.ARTIFACTORY_USERNAME }}
-          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
+          username: ${{ secrets.ARTIFACTORY_X_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_X_PASSWORD }}
 
       - name: Build & Push
         id:   build
