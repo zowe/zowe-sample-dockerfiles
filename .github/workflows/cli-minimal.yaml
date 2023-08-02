@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - cli/minimal/**
+      - .github/workflows/cli-minimal.yaml
   workflow_dispatch:
   schedule:
     - cron: '0 12 1,15 * *'

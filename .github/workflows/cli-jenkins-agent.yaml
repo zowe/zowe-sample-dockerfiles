@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - cli/jenkins-agent/**
+      - .github/workflows/cli-jenkins-agent.yaml
   workflow_dispatch:
   schedule:
     - cron: '0 12 1,15 * *'
