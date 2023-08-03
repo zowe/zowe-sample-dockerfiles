@@ -20,7 +20,7 @@ Builds upon the Alpine Minimal dockerfile by including an SSH server, Python, CM
 ## Basic
 
 Builds upon the Minimal dockerfile by including an SSH server, properly set locales, and a script that can be called to reinstall the Zowe CLI and Plug-ins from inside the container.
-Modifies OpenSSL to allow for backwards compatibility with TLS 1.1 and TLS 1.0 servers.
+Provides the ability to modify OpenSSL to allow for backwards compatibility with TLS 1.1 and TLS 1.0 servers.
 
 ## Basic with NVM
 

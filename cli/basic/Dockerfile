@@ -41,7 +41,7 @@ RUN apt-get update -qqy &&\
 RUN useradd zowe --shell /bin/bash --create-home && echo 'zowe:zowe' | chpasswd
 
 # Fix OpenSSL problems with < TLS 1.2
-COPY openssl.cnf /etc/ssl/openssl.cnf
+# COPY openssl.cnf /etc/ssl/openssl.cnf
 
 # Get rid of dash and use bash instead
 RUN echo "dash dash/sh boolean false" | debconf-set-selections

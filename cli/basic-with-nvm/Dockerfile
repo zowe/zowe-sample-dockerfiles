@@ -42,7 +42,7 @@ RUN apt-get update -qqy &&\
 RUN useradd zowe --shell /bin/bash --create-home && echo 'zowe:zowe' | chpasswd
 
 # Fix OpenSSL problems with < TLS 1.2
-COPY openssl.cnf /etc/ssl/openssl.cnf
+# COPY openssl.cnf /etc/ssl/openssl.cnf
 
 # Install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash

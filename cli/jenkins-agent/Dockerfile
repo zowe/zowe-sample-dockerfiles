@@ -52,7 +52,7 @@ RUN echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers
 RUN echo 'jenkins:jenkins' | chpasswd
 
 # Fix OpenSSL problems with < TLS 1.2
-COPY openssl.cnf /etc/ssl/openssl.cnf
+# COPY openssl.cnf /etc/ssl/openssl.cnf
 
 # Install nvm to enable multiple versions of node runtime and define environment 
 # variable for setting the desired node js version (defaulted to "current" for Node.js)
