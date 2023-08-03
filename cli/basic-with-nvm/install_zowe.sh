@@ -25,9 +25,7 @@ fi
 # for any further terminals
 npm config set @zowe:registry https://zowe.jfrog.io/zowe/api/npm/npm-local-release/
 rm -rf ~/.zowe/plugins
-npm install -g @zowe/cli@${PKG_TAG} --ignore-scripts
-mkdir -p ~/.zowe/settings
-echo '{"overrides":{"CredentialManager":false}}' > ~/.zowe/settings/imperative.json
+npm install -g @zowe/cli@${PKG_TAG}
 
 plugins=( @zowe/zos-ftp-for-zowe-cli@${PKG_TAG} @zowe/cics-for-zowe-cli@${PKG_TAG} @zowe/db2-for-zowe-cli@${PKG_TAG} @zowe/ims-for-zowe-cli@${PKG_TAG} @zowe/mq-for-zowe-cli@${PKG_TAG})
 
