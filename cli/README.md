@@ -1,10 +1,21 @@
 # Zowe CLI Sample Dockerfiles
 
-## Minimal
+## Alpine Minimal
 
-Provides a minimal installation of Zowe CLI in a docker container.
+Provides a minimal installation of Zowe CLI in an Alpine docker container.
 The built container will have a `zowe` user, Node LTS and Zowe V2 LTS.
 Secure Credential Management is disabled.
+The DB2 Plug-in is not installed.
+
+## Minimal
+
+Provides a minimal installation of Zowe CLI in an Ubuntu docker container.
+The built container will have a `zowe` user, Node LTS and Zowe V2 LTS.
+Secure Credential Management is disabled.
+
+## Alpine Basic
+
+Builds upon the Alpine Minimal dockerfile by including an SSH server, Python, CMake, G++, and command line based text editors vim and nano.
 
 ## Basic
 

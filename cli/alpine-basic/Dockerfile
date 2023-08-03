@@ -10,7 +10,6 @@ FROM alpine:latest
 
 USER root
 
-ARG sshEnv=/etc/profile.d/npm_setup.sh
 ARG scriptsDir=/usr/local/bin/
 
 # Upgrade package on image, install supporting software, including node, and delete apk cache
