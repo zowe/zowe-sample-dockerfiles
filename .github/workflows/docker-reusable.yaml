@@ -16,11 +16,15 @@ on:
         required: false
         default: false
         type: boolean
+      timeout:
+        required: false
+        default: 15
+        type: number
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: ${{ inputs.timeout }}
 
     steps:
       - name: Checkout
