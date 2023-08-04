@@ -4,46 +4,17 @@ on:
     paths:
       - cli/jenkins-agent/**
       - .github/workflows/cli-jenkins-agent.yaml
+      - .github/workflows/docker-reusable.yaml
   workflow_dispatch:
   schedule:
     - cron: '0 12 1,15 * *'
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Login to Zowe Artifactory
-        uses: docker/login-action@v2
-        with:
-          registry: zowe-docker-snapshot.jfrog.io
-          username: ${{ secrets.ARTIFACTORY_USERNAME }}
-          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
-
-      - name: Build & Push
-        id:   build
-        uses: docker/build-push-action@v4
-        with:
-          context: cli/jenkins-agent
-          push: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
-          platforms: linux/amd64
-          tags: |
-            ghcr.io/zowe/zowe-sample-dockerfiles-cli-jenkins-agent:latest
-            zowe-docker-snapshot.jfrog.io/ompzowe/zowe-sample-dockerfiles-cli-jenkins-agent:latest
-      
-      - name: Image Digest
-        run:  echo ${{ steps.build.outputs.digest }}
+  build-and-deploy-jenkins-agent:
+    uses: ./.github/workflows/docker-reusable.yaml
+    with: 
+      name: cli-jenkins-agent
+      path: cli/jenkins-agent
+      push: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      qemu: false
+    secrets: inherit
