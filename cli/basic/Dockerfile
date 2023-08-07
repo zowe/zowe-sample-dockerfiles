@@ -37,8 +37,9 @@ RUN apt-get update -qqy &&\
     apt-get -qqy clean &&\
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*.bin
 
-# Add Zowe user
-RUN useradd zowe --shell /bin/bash --create-home && echo 'zowe:zowe' | chpasswd
+# Add Zowe user and npm users group
+RUN useradd zowe --shell /bin/bash --create-home && echo 'zowe:zowe' | chpasswd && groupadd npmusers && usermod -aG npmusers zowe
+RUN chown -R root:npmusers /usr/lib/node_modules && chmod -R 0775 /usr/lib/node_modules
 
 # Fix OpenSSL problems with < TLS 1.2
 # COPY openssl.cnf /etc/ssl/openssl.cnf

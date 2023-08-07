@@ -1,7 +1,7 @@
 # Zowe CLI Docker Container
 
 This repository contains the files required to create a Zowe CLI docker container with root access on Alpine
-Does not install the DB2 plug-in
+Does not install the DB2 plug-in due to incompatibility with musl libraries
 This dockerfile does not provide secure credential support
 
 To build the container, run `docker build .`
