@@ -39,7 +39,7 @@ RUN apt-get update -qqy &&\
 
 # Add Zowe user and npm users group
 RUN useradd zowe --shell /bin/bash --create-home && echo 'zowe:zowe' | chpasswd && groupadd npmusers && usermod -aG npmusers zowe
-RUN chown -R root:npmusers /usr/lib/node_modules && chmod -R 0775 /usr/lib/node_modules
+RUN chown -R root:npmusers /usr/lib/node_modules /usr/bin && chmod -R 0775 /usr/lib/node_modules /usr/bin
 
 # Fix OpenSSL problems with < TLS 1.2
 # COPY openssl.cnf /etc/ssl/openssl.cnf
@@ -57,7 +57,7 @@ RUN echo "cd ~" >> ${bashEnv} && echo "cd ~" >> /home/zowe/.bashrc
 COPY install_zowe.sh ${scriptsDir}
 
 # Install zowe
-RUN install_zowe.sh
+RUN su -c "install_zowe.sh" - zowe
 
 # Uncomment to enable daemon mode by default
 # RUN echo 'export PATH=/home/zowe/.zowe/bin:$PATH' >> ~/.bashrc && zowe daemon enable
