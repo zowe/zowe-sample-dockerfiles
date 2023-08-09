@@ -1,0 +1,20 @@
+name: Build CLI Basic
+on:
+  push:
+    paths:
+      - cli/basic/**
+      - .github/workflows/cli-basic.yaml
+      - .github/workflows/docker-reusable.yaml
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 1,15 * *'
+
+jobs:
+  build-and-deploy-basic:
+    uses: ./.github/workflows/docker-reusable.yaml
+    with: 
+      name: cli-basic
+      path: cli/basic
+      push: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      qemu: false
+    secrets: inherit

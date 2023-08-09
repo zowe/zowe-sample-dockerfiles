@@ -1,0 +1,20 @@
+name: Build CLI Minimal
+on:
+  push:
+    paths:
+      - cli/minimal/**
+      - .github/workflows/cli-minimal.yaml
+      - .github/workflows/docker-reusable.yaml
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 1,15 * *'
+
+jobs:
+  build-and-deploy-minimal:
+    uses: ./.github/workflows/docker-reusable.yaml
+    with: 
+      name: cli-minimal
+      path: cli/minimal
+      push: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      qemu: false
+    secrets: inherit

@@ -1,0 +1,20 @@
+name: Build CLI Jenkins Agent
+on:
+  push:
+    paths:
+      - cli/jenkins-agent/**
+      - .github/workflows/cli-jenkins-agent.yaml
+      - .github/workflows/docker-reusable.yaml
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 1,15 * *'
+
+jobs:
+  build-and-deploy-jenkins-agent:
+    uses: ./.github/workflows/docker-reusable.yaml
+    with: 
+      name: cli-jenkins-agent
+      path: cli/jenkins-agent
+      push: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      qemu: false
+    secrets: inherit

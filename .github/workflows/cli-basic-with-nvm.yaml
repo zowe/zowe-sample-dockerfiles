@@ -1,0 +1,20 @@
+name: Build CLI Basic With NPM
+on:
+  push:
+    paths:
+      - cli/basic-with-nvm/**
+      - .github/workflows/cli-basic-with-nvm.yaml
+      - .github/workflows/docker-reusable.yaml
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 1,15 * *'
+
+jobs:
+  build-and-deploy-basic-with-nvm:
+    uses: ./.github/workflows/docker-reusable.yaml
+    with: 
+      name: cli-basic-with-nvm
+      path: cli/basic-with-nvm
+      push: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      qemu: false
+    secrets: inherit
