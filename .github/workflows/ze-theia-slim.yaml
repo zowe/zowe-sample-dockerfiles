@@ -35,12 +35,11 @@ jobs:
         id: load-env
         run: node ze/theia-slim/getTheiaVersion.js ${{ inputs.theia-version || 'next' }}
 
-  build-and-push:
+  build-and-deploy:
     needs: setup
     uses: ./.github/workflows/docker-reusable.yaml
     with:
       build-args: |
-        GITHUB_TOKEN=${{ github.token }}
         THEIA_VERSION=${{ needs.setup.outputs.theia-version }}
       name: ze-theia-slim
       path: ze/theia-slim

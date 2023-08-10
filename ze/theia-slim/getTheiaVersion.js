@@ -26,10 +26,10 @@ async function getTheiaReleases() {
 (async () => {
     const dockerTags = [];
     let theiaVersion;
-    if (process.argv[2] == "next") {
+    if (process.argv[2] === "next") {
         theiaVersion = "latest";
         dockerTags.push(...expandImageTag("next"));
-    } else if (process.argv[2] == null || process.argv[2] == "latest") {
+    } else if (process.argv[2] == null || process.argv[2] === "latest") {
         const release = (await getTheiaReleases()).find(obj => obj.body.includes("community release"));
         theiaVersion = release.tag_name.slice(1);
         dockerTags.push(...expandImageTag("latest"),
