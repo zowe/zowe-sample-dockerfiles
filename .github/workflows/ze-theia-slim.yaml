@@ -1,0 +1,51 @@
+name: Build ZE Theia Slim
+on:
+  push:
+    paths:
+      - ze/theia-slim/**
+      - .github/workflows/ze-theia-slim.yaml
+      - .github/workflows/docker-reusable.yaml
+  workflow_dispatch:
+    inputs:
+      theia-version:
+        description: "Specify Theia version (e.g., 1.37)"
+        default: "latest"
+        required: false
+        type: string
+      deploy:
+        description: "Push image to Docker registry"
+        default: false
+        required: false
+        type: boolean
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      docker-tags: ${{ steps.load-env.outputs.DOCKER_TAGS }}
+      theia-version: ${{ steps.load-env.outputs.THEIA_VERSION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Theia version
+        id: load-env
+        run: node ze/theia-slim/getTheiaVersion.js ${{ inputs.theia-version || 'next' }}
+
+  build-and-push:
+    needs: setup
+    uses: ./.github/workflows/docker-reusable.yaml
+    with:
+      build-args: |
+        GITHUB_TOKEN=${{ github.token }}
+        THEIA_VERSION=${{ needs.setup.outputs.theia-version }}
+      name: ze-theia-slim
+      path: ze/theia-slim
+      push: ${{ (github.event_name == 'workflow_dispatch' && inputs.deploy) || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      qemu: ${{ (github.event_name == 'workflow_dispatch' && inputs.deploy) || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      tags: ${{ needs.setup.outputs.docker-tags }}
+      timeout: 60
+    secrets: inherit
