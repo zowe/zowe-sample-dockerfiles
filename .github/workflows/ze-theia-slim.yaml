@@ -44,6 +44,7 @@ jobs:
       name: ze-theia-slim
       path: ze/theia-slim
       push: ${{ (github.event_name == 'workflow_dispatch' && inputs.deploy) || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
+      # Skip build for ARM64 unless we are deploying because it is slow
       qemu: ${{ (github.event_name == 'workflow_dispatch' && inputs.deploy) || github.event_name == 'schedule' || (github.event_name == 'push' && github.ref_name == 'main') }}
       tags: ${{ needs.setup.outputs.docker-tags }}
       timeout: 60
