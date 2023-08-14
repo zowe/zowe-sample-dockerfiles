@@ -30,6 +30,5 @@ Useful for testing the CLI on new versions of Node.
 ## Jenkins Agent
 
 An advanced dockerfile that provides a Jenkins user, JDK 11, JRE 11, and Secure Credential Management.
-Requires additional capabilities to work properly, namely `IPC_LOCK`, or to be privileged in order for Secure Credential Management to function properly.
 Also includes NVM, a fallback NodeJS installation, customizable entrypoint logic, passwordless sudo, and an auto-unlocking keyring.
 JNLP is not supported on this agent.
