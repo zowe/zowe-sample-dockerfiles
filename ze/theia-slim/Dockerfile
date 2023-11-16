@@ -7,17 +7,15 @@
 # Copyright Contributors to the Zowe Project.
 
 ARG NODE_VERSION=lts
-ARG THEIA_VERSION=latest
 FROM node:${NODE_VERSION}-alpine
 RUN apk add --no-cache curl make pkgconfig gcc g++ python3 libx11-dev libxkbfile-dev libsecret-dev chromium
 WORKDIR /home/theia
 ADD buildPackageJson.js ./buildPackageJson.js
-RUN node --experimental-fetch buildPackageJson.js ${THEIA_VERSION} > package.json
+ARG THEIA_VERSION=latest
+RUN echo "$(node buildPackageJson.js ${THEIA_VERSION})" > package.json
 ARG GITHUB_TOKEN
-
-# First yarn generates the lockfile, second one installs things. Don't ask why this is necessary, I don't know either -_-
-RUN yarn && \ 
-    yarn && \
+RUN yarn global add node-gyp && \
+    yarn --pure-lockfile && \
     NODE_OPTIONS="--max_old_space_size=4096" yarn theia build && \
     yarn theia download:plugins && \
     yarn --production && \
@@ -26,8 +24,7 @@ RUN yarn && \
     echo *.ts.map >> .yarnclean && \
     echo *.spec.* >> .yarnclean && \
     yarn autoclean --force && \
-    yarn cache clean && \
-    rm -f yarn.lock
+    yarn cache clean
 # Uncomment the following lines to install Zowe Explorer in the container
 # ARG ZOWE_EXPLORER_VERSION=2.9.2
 # RUN cd /home/theia/plugins && \
