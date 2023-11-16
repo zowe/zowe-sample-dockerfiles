@@ -7,12 +7,12 @@
 # Copyright Contributors to the Zowe Project.
 
 ARG NODE_VERSION=lts
-ARG THEIA_VERSION=latest
 FROM node:${NODE_VERSION}-alpine
 RUN apk add --no-cache curl make pkgconfig gcc g++ python3 libx11-dev libxkbfile-dev libsecret-dev chromium
 WORKDIR /home/theia
 ADD buildPackageJson.js ./buildPackageJson.js
-RUN echo $(node buildPackageJson.js ${THEIA_VERSION}) > package.json
+ARG THEIA_VERSION=latest
+RUN echo "$(node buildPackageJson.js ${THEIA_VERSION})" > package.json
 ARG GITHUB_TOKEN
 RUN yarn global add node-gyp && \
     yarn --pure-lockfile && \
