@@ -6,7 +6,7 @@
 
 # Copyright Contributors to the Zowe Project.
 
-ARG NODE_VERSION=lts
+ARG NODE_VERSION=18
 FROM node:${NODE_VERSION}-alpine
 RUN apk add --no-cache curl make pkgconfig gcc g++ python3 libx11-dev libxkbfile-dev libsecret-dev chromium
 WORKDIR /home/theia
