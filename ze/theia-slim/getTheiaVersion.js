@@ -29,7 +29,7 @@ async function getTheiaReleases() {
     if (process.argv[2] == null || process.argv[2] === "latest") {
         // "latest" tag (default) = latest community release of Theia
         const release = (await getTheiaReleases()).find(obj => obj.body.includes("community release"));
-        theiaVersion = release.tag_name.slice(1);
+        theiaVersion = "1.43.1"; // release.tag_name.slice(1);
         dockerTags.push(...expandImageTag("latest"),
             ...expandImageTag(theiaVersion.slice(0, theiaVersion.lastIndexOf("."))));
     } else if (process.argv[2] === "next") {
