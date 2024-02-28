@@ -6,7 +6,7 @@ Based on https://github.com/theia-ide/theia-apps/tree/master/theia-docker
 
 To build the container, run `docker build .`
 
-**Note:** You may need to provide a GITHUB_TOKEN as a build argument with at least `repo` access for classic GitHub Tokens, or (TBD for fine grained)
+**Note:** You may need to provide a GITHUB_TOKEN as a build argument with `repo` access
 
 The following runs Theia IDE on http://localhost:3000 with the current directory as a workspace. The option of `--init` is added to fix the [defunct process problem](https://github.com/theia-ide/theia-apps/issues/195).
 
