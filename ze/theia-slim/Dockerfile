@@ -23,6 +23,7 @@ RUN yarn global add node-gyp && \
     echo *.ts >> .yarnclean && \
     echo *.ts.map >> .yarnclean && \
     echo *.spec.* >> .yarnclean && \
+    echo "!@theia/test" >> .yarnclean && \
     yarn autoclean --force && \
     yarn cache clean
 # Uncomment the following lines to install Zowe Explorer in the container
