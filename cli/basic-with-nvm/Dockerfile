@@ -19,7 +19,7 @@ ENV ENV=${bashEnv}
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-ENV DEFAULT_NODE_VERSION=16.17.0
+ENV DEFAULT_NODE_VERSION=18
 ENV DEBIAN_FRONTEND="noninteractive"
 ARG loginFile=pam.d.config
 
@@ -32,7 +32,7 @@ RUN apt-get update -qqy &&\
     apt-get -qqy install --no-install-recommends git curl libxss1 vim nano openssh-server software-properties-common cmake gnome-keyring libsecret-1-dev dbus-x11 &&\
     apt-get -q autoremove &&\
     mkdir -p /var/run/sshd &&\
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - &&\
+    curl -fsSL "https://deb.nodesource.com/setup_${DEFAULT_NODE_VERSION}.x" | bash - &&\
     apt-get -qqy install nodejs build-essential &&\
     apt-get -q autoremove &&\
     apt-get -qqy clean &&\
