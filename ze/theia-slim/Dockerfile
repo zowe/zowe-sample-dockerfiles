@@ -8,7 +8,7 @@
 
 ARG NODE_VERSION=lts
 FROM node:${NODE_VERSION}-alpine
-RUN apk add --no-cache curl make pkgconfig gcc g++ python3 libx11-dev libxkbfile-dev libsecret-dev chromium
+RUN apk add --no-cache curl make pkgconfig gcc g++ "python3=~3.11" libx11-dev libxkbfile-dev libsecret-dev chromium
 WORKDIR /home/theia
 ADD buildPackageJson.js ./buildPackageJson.js
 ARG THEIA_VERSION=latest
