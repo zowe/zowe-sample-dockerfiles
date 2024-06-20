@@ -7,8 +7,8 @@
 # Copyright Contributors to the Zowe Project.
 
 ARG NODE_VERSION=lts
-FROM node:${NODE_VERSION}-alpine
-RUN apk add --no-cache curl make pkgconfig gcc g++ "python3=~3.11" libx11-dev libxkbfile-dev libsecret-dev chromium
+FROM node:${NODE_VERSION}-alpine3.19
+RUN apk add --no-cache curl make pkgconfig gcc g++ python3 libx11-dev libxkbfile-dev libsecret-dev chromium
 WORKDIR /home/theia
 ADD buildPackageJson.js ./buildPackageJson.js
 ARG THEIA_VERSION=latest
@@ -32,7 +32,7 @@ RUN yarn global add node-gyp && \
 #   curl -fLOJ https://github.com/zowe/vscode-extension-for-zowe/releases/download/v${ZOWE_EXPLORER_VERSION}/vscode-extension-for-zowe-${ZOWE_EXPLORER_VERSION}.vsix && \
 #   curl -fLOJ https://github.com/zowe/vscode-extension-for-zowe/releases/download/v${ZOWE_EXPLORER_VERSION}/zowe-explorer-ftp-extension-${ZOWE_EXPLORER_VERSION}.vsix
 
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}-alpine3.19
 # See : https://github.com/theia-ide/theia-apps/issues/34
 RUN addgroup theia && \
     adduser -G theia -s /bin/sh -D theia;
