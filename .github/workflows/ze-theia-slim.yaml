@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       docker-tags:
-        description: "Docker tags to build (e.g., 1.37 latest)"
+        description: "Docker tags to build (space-separated - e.g., '1.37 latest')"
         default: "next"
         required: false
         type: string
