@@ -26,22 +26,24 @@ async function getTheiaReleases() {
 (async () => {
     const dockerTags = [];
     let theiaVersion;
-    if (process.argv[2] == null || process.argv[2] === "latest") {
-        // "latest" tag (default) = latest community release of Theia
-        const release = (await getTheiaReleases()).find(obj => obj.body.includes("community release"));
-        theiaVersion = "1.49.1"; // release.tag_name.slice(1);
-        dockerTags.push(...expandImageTag("latest"),
-            ...expandImageTag(theiaVersion.slice(0, theiaVersion.lastIndexOf("."))));
-    } else if (process.argv[2] === "next") {
+    if (process.argv[2] == null || process.argv[2] === "next") {
         // "next" tag = latest version of Theia on master branch
         theiaVersion = "latest";
         dockerTags.push(...expandImageTag("next"));
     } else {
-        // "1.XX" tag = older community release of Theia
-        const release = (await getTheiaReleases()).find(obj => obj.body.includes("community release") &&
-            obj.tag_name.startsWith(`v${process.argv[2]}`));
-        theiaVersion = release.tag_name.slice(1);
-        dockerTags.push(...expandImageTag(theiaVersion.slice(0, theiaVersion.lastIndexOf("."))));
+        // "1.XX" and "latest" tag = community releases of Theia
+        for (const tagName of process.argv.slice(2)) {
+            if (tagName === "latest") {
+                dockerTags.push(...expandImageTag("latest"));
+            } else {
+                const release = (await getTheiaReleases()).find(obj => obj.tag_name.startsWith("v" + tagName));
+                theiaVersion = release?.tag_name.slice(1);
+                dockerTags.push(...expandImageTag(tagName));
+            }
+        };
+    }
+    if (theiaVersion == null) {
+        throw new Error("Could not find Theia version that matches these tags: " + process.argv.slice(2).join(" "));
     }
     fs.appendFileSync(outputPath, "DOCKER_TAGS<<EOF\n" + dockerTags.join("\n") + "\nEOF\n");
     fs.appendFileSync(outputPath, `THEIA_VERSION=${theiaVersion}\n`);

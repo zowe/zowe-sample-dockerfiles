@@ -7,9 +7,9 @@ on:
       - .github/workflows/docker-reusable.yaml
   workflow_dispatch:
     inputs:
-      theia-version:
-        description: "Specify Theia version (e.g., 1.37)"
-        default: "latest"
+      docker-tags:
+        description: "Docker tags to build (e.g., 1.37 latest)"
+        default: "next"
         required: false
         type: string
       deploy:
@@ -33,7 +33,7 @@ jobs:
 
       - name: Get Theia version
         id: load-env
-        run: node ze/theia-slim/getTheiaVersion.js ${{ inputs.theia-version || 'next' }}
+        run: node ze/theia-slim/getTheiaVersion.js ${{ inputs.docker-tags }}
 
   build-and-deploy:
     needs: setup
