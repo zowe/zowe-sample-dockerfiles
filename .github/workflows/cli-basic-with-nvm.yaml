@@ -1,4 +1,4 @@
-name: Build CLI Basic With NPM
+name: Build CLI Basic With NVM
 on:
   push:
     paths:
