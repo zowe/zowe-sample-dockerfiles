@@ -27,7 +27,8 @@ npm config set @zowe:registry https://zowe.jfrog.io/zowe/api/npm/npm-local-relea
 rm -rf ~/.zowe/plugins
 npm install -g @zowe/cli@${PKG_TAG}
 
-plugins=( @zowe/zos-ftp-for-zowe-cli@${PKG_TAG} @zowe/cics-for-zowe-cli@${PKG_TAG} @zowe/db2-for-zowe-cli@${PKG_TAG} @zowe/ims-for-zowe-cli@${PKG_TAG} @zowe/mq-for-zowe-cli@${PKG_TAG})
+plugins=( @zowe/zos-ftp-for-zowe-cli@${PKG_TAG} @zowe/cics-for-zowe-cli@${PKG_TAG} @zowe/ims-for-zowe-cli@${PKG_TAG} @zowe/mq-for-zowe-cli@${PKG_TAG})
+noarm_plugins=( @zowe/db2-for-zowe-cli@${PKG_TAG} )
 
 for i in "${plugins[@]}"; do
     if [ ! -z "${ALLOW_PLUGIN_INSTALL_FAIL}" ]; then
@@ -36,5 +37,20 @@ for i in "${plugins[@]}"; do
         zowe plugins install $i || exit 1
     fi
 done
+
+if uname -m | grep -q 'arm\|aarch'; then
+    echo "Unable to install the following plug-ins due to CPU architecture:"
+    for i in "${noarm_plugins[@]}"; do
+        echo $i
+    done
+else
+    for i in "${noarm_plugins[@]}"; do
+        if [ ! -z "${ALLOW_PLUGIN_INSTALL_FAIL}" ]; then
+            zowe plugins install $i || true
+        else
+            zowe plugins install $i || exit 1
+        fi
+    done
+fi
 
 exit 0
