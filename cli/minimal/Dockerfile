@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install -y curl build-essential python3 && curl -f
 # Install Zowe CLI
 RUN npm install -g @zowe/cli@${ZOWE_VERSION} --ignore-scripts
 USER zowe
-RUN zowe plugins install @zowe/cics-for-zowe-cli@${ZOWE_VERSION} @zowe/db2-for-zowe-cli@${ZOWE_VERSION} @zowe/ims-for-zowe-cli@${ZOWE_VERSION} @zowe/mq-for-zowe-cli@${ZOWE_VERSION} @zowe/zos-ftp-for-zowe-cli@${ZOWE_VERSION}
+RUN zowe plugins install @zowe/cics-for-zowe-cli@${ZOWE_VERSION} @zowe/ims-for-zowe-cli@${ZOWE_VERSION} @zowe/mq-for-zowe-cli@${ZOWE_VERSION} @zowe/zos-ftp-for-zowe-cli@${ZOWE_VERSION}
+RUN if uname -m | grep -q 'arm'; then echo "Unable to install the DB2 Plug-in due to CPU architecture"; elif uname -m | grep -q 'aarch'; then echo "Unable to install the DB2 Plug-in due to CPU architecture"; else zowe plugins install @zowe/db2-for-zowe-cli@${ZOWE_VERSION}; fi
 RUN mkdir -p ~/.zowe/settings && echo '{"overrides":{"CredentialManager":false}}' > ~/.zowe/settings/imperative.json
 
 # Uncomment to enable daemon mode by default
