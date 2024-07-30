@@ -38,12 +38,7 @@ for i in "${plugins[@]}"; do
     fi
 done
 
-if uname -m | grep -q 'arm'; then
-    echo "Unable to install the following plug-ins due to CPU architecture:"
-    for i in "${noarm_plugins[@]}"; do
-        echo $i
-    done
-elif uname -m | grep -q 'aarch'; then
+if uname -m | grep -q 'arm\|aarch'; then
     echo "Unable to install the following plug-ins due to CPU architecture:"
     for i in "${noarm_plugins[@]}"; do
         echo $i
